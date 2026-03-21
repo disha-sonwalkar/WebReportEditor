@@ -1,0 +1,151 @@
+/* ── Top bar ── */
+.top-bar {
+  height: 44px;
+  background: #1e3a5f;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  flex-shrink: 0;
+  z-index: 100;
+}
+.top-bar-title {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.top-bar-doc {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.top-bar-pagecount {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+.top-bar-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Divider ── */
+.top-bar-divider {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+
+/* ── Preview toggle button ── */
+.preview-toggle-btn {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.preview-toggle-btn:hover  { background: rgba(255, 255, 255, 0.15); }
+.preview-toggle-btn.active { background: rgba(255, 255, 255, 0.2); }
+
+/* ── AI toggle button ── */
+.ai-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.ai-toggle-btn:hover { background: rgba(255, 255, 255, 0.15); }
+.ai-toggle-btn.active {
+  background: rgba(167, 139, 250, 0.25);
+  border-color: rgba(167, 139, 250, 0.6);
+  color: #ddd6fe;
+}
+.ai-btn-icon { font-size: 13px; line-height: 1; }
+.ai-toggle-btn.active .ai-btn-icon {
+  animation: ai-breathe 2.4s ease-in-out infinite;
+}
+@keyframes ai-breathe {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── Save pill ── */
+.save-pill {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.save-pill.saved   { background: #d1fae5; color: #065f46; }
+.save-pill.saving  { background: #fef3c7; color: #92400e; }
+.save-pill.unsaved { background: #fee2e2; color: #991b1b; }
+
+/* ── TOC toggle button ── */
+.toc-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.toc-toggle-btn:hover  { background: rgba(255, 255, 255, 0.15); }
+.toc-toggle-btn.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.toc-btn-icon { font-size: 15px; line-height: 1; }
+
+/* ── Report Config toggle button ── */
+.config-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.config-toggle-btn:hover { background: rgba(255, 255, 255, 0.15); }
+.config-toggle-btn.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.config-btn-icon { font-size: 14px; line-height: 1; }

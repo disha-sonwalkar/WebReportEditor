@@ -1,0 +1,93 @@
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #f0f0f0;
+}
+
+/* ── App shell ── */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── App body layout ── */
+.app-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Editor pane ── */
+.editor-pane {
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+/* ── Preview pane ── */
+.preview-pane {
+  min-width: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
+/* ── Drag divider ── */
+.drag-divider {
+  width: 6px;
+  flex-shrink: 0;
+  background: #e5e7eb;
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.15s;
+}
+.drag-divider-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  pointer-events: none;
+}
+.drag-divider-dot {
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #9ca3af;
+}
+
+/* ── Print ── */
+@media print {
+  .top-bar,
+  .toolbar-ribbon {
+    display: none !important;
+  }
+  .page-scroll {
+    background: white !important;
+    padding: 0 !important;
+  }
+  .ck-editor__editable {
+    box-shadow: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+}

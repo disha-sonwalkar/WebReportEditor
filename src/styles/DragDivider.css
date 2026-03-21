@@ -1,0 +1,23 @@
+.drag-divider {
+  width: 6px;
+  flex-shrink: 0;
+  background: #e5e7eb;
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.15s;
+}
+.drag-divider-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  pointer-events: none;
+}
+.drag-divider-dot {
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #9ca3af;
+}
