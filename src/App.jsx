@@ -9,6 +9,7 @@ import PreviewPane     from "./components/PreviewPane";
 import DragDivider     from "./components/DragDivider";
 import AIPanel         from "./components/AIPanel";
 import ReportConfig    from "./components/ReportConfig";
+import ReportListing   from "./components/ReportPipelineListing";
 
 const INITIAL_CONTENT = `
 <h1>Q4 2024 Performance Report</h1>
@@ -64,8 +65,28 @@ export default function App() {
   const [showPreview,    setShowPreview]    = useState(false);
   const [showAI,         setShowAI]         = useState(false);
   const [showConfig,     setShowConfig]     = useState(false);
-  const [reportConfig,   setReportConfig]   = useState({ reportType: "", sector: "", company: "Acme Corporation", status: "Draft" });
+  const [reportConfig,   setReportConfig]   = useState({
+    reportType: "",
+    sector: "",
+    company: "Acme Corporation",
+    status: "Draft",
+    selectedAnalysts: [1, 2],   // default: first two selected
+    analystPool: [
+      { id: 1, name: "Priya Sharma",   title: "Lead Analyst",    email: "p.sharma@firm.com",   phone: "+1 212 555 0101" },
+      { id: 2, name: "James Caldwell", title: "Senior Associate", email: "j.caldwell@firm.com", phone: "+1 212 555 0102" },
+      { id: 3, name: "Aisha Okonkwo",  title: "Research Analyst", email: "a.okonkwo@firm.com",  phone: "+1 212 555 0103" },
+    ],
+  });
+  const [view,           setView]           = useState("listing"); // "listing" | "editor"
   const [editorWidthPct, setEditorWidthPct] = useState(60);
+
+  const handleOpenReport = (templateOrReport) => {
+    setView("editor");
+  };
+
+  const handleBackToListing = () => {
+    setView("listing");
+  };
 
   const handleDrag = useCallback((clientX) => {
     if (!containerRef.current) return;
@@ -94,8 +115,19 @@ export default function App() {
     }
   };
 
+  if (view === "listing") {
+    return <ReportListing onOpenReport={handleOpenReport} />;
+  }
+
   return (
     <div className="app-shell">
+
+      {/* Back to listing */}
+      <div className="editor-back-bar">
+        <button className="editor-back-btn" onClick={handleBackToListing}>
+          ← All Reports
+        </button>
+      </div>
 
       <TopBar
         pageCount={pageCount}
@@ -118,6 +150,8 @@ export default function App() {
             onReady={handleEditorReady}
             showTOC={showTOC}
             content={content}
+            analystPool={reportConfig.analystPool || []}
+            selectedAnalysts={reportConfig.selectedAnalysts || []}
           />
         </div>
 
@@ -128,13 +162,18 @@ export default function App() {
             className="preview-pane"
             style={{ width: `${100 - editorWidthPct}%` }}
           >
-            <PreviewPane content={content} pageCount={pageCount} />
+            <PreviewPane
+              content={content}
+              pageCount={pageCount}
+              analystPool={reportConfig.analystPool || []}
+              selectedAnalysts={reportConfig.selectedAnalysts || []}
+            />
           </div>
         )}
 
       </div>
 
-<AIPanel isOpen={showAI} onClose={() => setShowAI(false)} />
+      <AIPanel isOpen={showAI} onClose={() => setShowAI(false)} />
 
       <ReportConfig
         isOpen={showConfig}

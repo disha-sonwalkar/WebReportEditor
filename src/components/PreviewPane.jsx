@@ -1,29 +1,72 @@
 import { useEffect, useRef, useState } from "react";
 import "../styles/PreviewPane.css";
 
-const PAGE_WIDTH    = 794;
-const PAGE_HEIGHT_PX = 1123;
+const PAGE_W    = 794;
+const PAGE_H    = 1123;
+const PAGE_GAP  = 16;   // visible grey gap between pages
+const PAD_TOP   = 75;   // A4 top/bottom margin
+const PAD_SIDE  = 94;   // A4 left/right margin
+const CONTENT_H = PAGE_H - PAD_TOP - PAD_TOP;  // 973px usable per page
 
-function splitIntoPages(html, targetPageCount = 1) {
+function PreviewFooter({ analysts }) {
+  if (!analysts.length) return null;
+  return (
+    <div className="pv-footer">
+      <div className="pv-footer-inner">
+        <div className="pv-footer-label">Research Coverage</div>
+        <div className="pv-footer-analysts">
+          {analysts.map((a) => (
+            <div key={a.id} className="pv-footer-analyst">
+              <div className="pv-footer-avatar">
+                {a.name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()}
+              </div>
+              <div className="pv-footer-info">
+                <span className="pv-footer-name">{a.name}</span>
+                <span className="pv-footer-title">{a.title}</span>
+                {a.email && <span className="pv-footer-contact">{a.email}</span>}
+                {a.phone && <span className="pv-footer-contact">{a.phone}</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="pv-footer-disclaimer">
+          This report is prepared for informational purposes only. The information
+          herein is believed to be reliable but has not been independently verified.
+          Past performance is not indicative of future results.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/*
+ * Split html into exactly `count` chunks by measuring rendered heights
+ * in a hidden div matching the A4 content width (606px).
+ */
+function splitIntoPages(html, count) {
+  if (!html || count <= 0) return [html];
+
   const wrapper = document.createElement("div");
   wrapper.style.cssText = `
-    position: absolute; visibility: hidden; pointer-events: none;
-    width: 606px;
-    font-family: Calibri, "Segoe UI", Arial, sans-serif;
-    font-size: 10.5pt; line-height: 1.6;
+    position:absolute; visibility:hidden; pointer-events:none;
+    width:${PAGE_W - PAD_SIDE * 2}px;
+    font-family:Calibri,"Segoe UI",Arial,sans-serif;
+    font-size:10.5pt; line-height:1.6;
+    top:-9999px; left:-9999px;
   `;
   wrapper.innerHTML = html;
   document.body.appendChild(wrapper);
 
   const children = Array.from(wrapper.children);
   const totalH   = wrapper.scrollHeight;
-  const targetH  = totalH / Math.max(1, targetPageCount);
-  const pages    = [];
-  let currentNodes = [], currentH = 0, pagesFilled = 0;
+  const targetH  = totalH / count;
+
+  const pages       = [];
+  let currentNodes  = [], currentH = 0, pagesFilled = 0;
 
   for (const node of children) {
     const h         = node.offsetHeight || 0;
-    const remaining = targetPageCount - pagesFilled;
+    const remaining = count - pagesFilled;
     if (currentH + h > targetH && currentNodes.length > 0 && remaining > 1) {
       pages.push(currentNodes.map((n) => n.outerHTML).join(""));
       currentNodes = []; currentH = 0; pagesFilled++;
@@ -31,73 +74,33 @@ function splitIntoPages(html, targetPageCount = 1) {
     currentNodes.push(node);
     currentH += h;
   }
-  if (currentNodes.length > 0) pages.push(currentNodes.map((n) => n.outerHTML).join(""));
+  if (currentNodes.length > 0)
+    pages.push(currentNodes.map((n) => n.outerHTML).join(""));
+
   document.body.removeChild(wrapper);
-  while (pages.length < targetPageCount) pages.push("");
+  while (pages.length < count) pages.push("");
   return pages.length > 0 ? pages : [html];
 }
 
-function ScaledPage({ html, index, total, scale }) {
-  const pageRef            = useRef(null);
-  const [marginBottom, setMarginBottom] = useState(0);
-  const [marginRight,  setMarginRight]  = useState(0);
-
-  useEffect(() => {
-    const el = pageRef.current;
-    if (!el) return;
-
-    const compute = () => {
-      if (scale >= 1) {
-        setMarginBottom(0);
-        setMarginRight(0);
-        return;
-      }
-      const h = el.offsetHeight;
-      const w = el.offsetWidth;
-      // After scale(), layout still occupies full h×w.
-      // We need layout to occupy (h*scale + PAGE_GAP) tall and (w*scale) wide.
-      // PAGE_GAP = 8px comes from margin-top on .preview-page in CSS.
-      setMarginBottom(-(h - h * scale) + 8);
-      setMarginRight(-(w - w * scale));
-    };
-
-    compute();
-
-    // Re-compute whenever content causes the page height to change
-    const ro = new ResizeObserver(compute);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [scale, html]);
-
-  return (
-    <div
-      ref={pageRef}
-      className="preview-page"
-      style={{
-        transform:       scale < 1 ? `scale(${scale})` : undefined,
-        transformOrigin: "top left",
-        marginRight,
-        marginBottom,
-      }}
-    >
-      <div className="preview-page-number">Page {index + 1} of {total}</div>
-      <div className="preview-readable" dangerouslySetInnerHTML={{ __html: html }} />
-    </div>
-  );
-}
-
-export default function PreviewPane({ content, pageCount }) {
+export default function PreviewPane({
+  content,
+  pageCount,
+  analystPool = [],
+  selectedAnalysts = [],
+}) {
   const count     = Math.max(1, pageCount || 1);
-  const pages     = splitIntoPages(content, count);
   const scrollRef = useRef(null);
   const [scale, setScale] = useState(1);
+
+  const analysts = analystPool.filter((a) => selectedAnalysts.includes(a.id));
+  const pages    = splitIntoPages(content, count);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
     const update = () => {
-      const available = el.clientWidth - 16;
-      setScale(available >= PAGE_WIDTH ? 1 : Math.max(0.65, available / PAGE_WIDTH));
+      const available = el.clientWidth - 32; // 16px padding each side
+      setScale(available >= PAGE_W ? 1 : Math.max(0.5, available / PAGE_W));
     };
     update();
     const ro = new ResizeObserver(update);
@@ -113,10 +116,42 @@ export default function PreviewPane({ content, pageCount }) {
           {count} {count === 1 ? "page" : "pages"}
         </span>
       </div>
+
       <div className="preview-scroll" ref={scrollRef}>
-        {pages.map((pageHtml, i) => (
-          <ScaledPage key={i} html={pageHtml} index={i} total={count} scale={scale} />
-        ))}
+        {pages.map((pageHtml, i) => {
+          const isLast = i === pages.length - 1;
+          // Compensate for transform scale collapsing layout space
+          const scaledH     = PAGE_H * scale;
+          const marginBottom = scale < 1 ? -(PAGE_H - scaledH) + PAGE_GAP : PAGE_GAP;
+          const marginRight  = scale < 1 ? -(PAGE_W - PAGE_W * scale) : 0;
+
+          return (
+            <div
+              key={i}
+              className="preview-page"
+              style={{
+                transform:       scale < 1 ? `scale(${scale})` : undefined,
+                transformOrigin: "top left",
+                marginBottom:    isLast ? (scale < 1 ? -(PAGE_H - scaledH) + PAGE_GAP : PAGE_GAP) : marginBottom,
+                marginRight:     scale < 1 ? marginRight : 0,
+              }}
+            >
+              <div className="preview-page-number">
+                Page {i + 1} of {count}
+              </div>
+
+              <div
+                className="preview-readable"
+                dangerouslySetInnerHTML={{ __html: pageHtml }}
+              />
+
+              {/* Footer on last page */}
+              {isLast && analysts.length > 0 && (
+                <PreviewFooter analysts={analysts} />
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

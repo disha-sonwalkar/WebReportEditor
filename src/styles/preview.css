@@ -1,0 +1,218 @@
+/* =====================================================================
+   preview.css — Live Preview panel styles
+   Imported in App.jsx as: import "./styles/preview.css"
+   ===================================================================== */
+
+/* ── Panel chrome ── */
+.preview-panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #f9fafb;
+  overflow: hidden;
+}
+
+.preview-panel-header {
+  padding: 8px 16px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.preview-panel-pagecount {
+  font-size: 10px;
+  font-weight: 400;
+  color: #9ca3af;
+}
+
+/* ── Scroll area — same grey "desk" as the editor ── */
+.preview-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: auto;
+  background: #c8c8c8;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* ── Individual A4 page sheet ── */
+/* A4 at 96 dpi = 794 × 1123 px                                    */
+/* 24 px gap above each page (between pages and at the very top).  */
+/* Last page also gets 24 px clearance at the bottom.              */
+.preview-page {
+  width: 794px;
+  min-height: 1123px;
+  background: #ffffff;
+  box-shadow:
+    0 0 0 1px #bbb,
+    0 4px 20px rgba(0, 0, 0, 0.18);
+  margin-top: 8px;
+  padding: 75px 94px;
+  position: relative;
+  flex-shrink: 0;
+}
+.preview-page:last-child {
+  margin-bottom: 8px;
+}
+
+/* ── Page number badge ── */
+.preview-page-number {
+  position: absolute;
+  bottom: 18px;
+  right: 24px;
+  font-size: 8px;
+  font-family: "Segoe UI", sans-serif;
+  font-weight: 600;
+  color: #9ca3af;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ── Content typography inside each preview page ── */
+/* Mirrors editor.css content rules without the !important overrides   */
+/* (preview is read-only, no CKEditor specificity battles needed).     */
+.preview-readable {
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.6;
+  color: #1a1a1a;
+}
+
+.preview-readable h1 {
+  font-size: 22pt;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+}
+
+.preview-readable h2 {
+  font-size: 13pt;
+  font-weight: 400;
+  color: #4b5563;
+  margin: 0 0 16px 0;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+}
+
+.preview-readable h3,
+.preview-readable h4,
+.preview-readable h5,
+.preview-readable h6 {
+  font-size: 12pt;
+  font-weight: 700;
+  color: #1e3a5f;
+  border-bottom: 2px solid #1e3a5f;
+  padding-bottom: 4px;
+  margin: 28px 0 12px 0;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+  background: none;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+
+.preview-readable p {
+  margin: 0 0 9px 0;
+  font-size: 10.5pt;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.preview-readable table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 9.5pt;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+}
+
+.preview-readable table th {
+  background: #1e3a5f;
+  color: #fff;
+  font-weight: 600;
+  padding: 7px 12px;
+  text-align: left;
+  font-size: 9pt;
+  letter-spacing: 0.02em;
+  border: 1px solid #1e3a5f;
+  white-space: nowrap;
+}
+
+.preview-readable table td {
+  padding: 6px 12px;
+  border: 1px solid #e5e7eb;
+  vertical-align: top;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+.preview-readable table tr:nth-child(even) td {
+  background: #f0f4f8;
+}
+
+.preview-readable table tr:hover td {
+  background: #e8eef5;
+}
+
+.preview-readable blockquote {
+  border-left: 4px solid #1e3a5f;
+  background: #f0f4f8;
+  margin: 16px 0;
+  padding: 12px 16px;
+  color: #1e3a5f;
+  font-size: 10.5pt;
+  font-weight: 600;
+  border-radius: 0 4px 4px 0;
+  font-style: normal;
+}
+
+.preview-readable blockquote p {
+  margin: 0;
+  color: #1e3a5f;
+  text-align: left;
+}
+
+.preview-readable hr {
+  border: none;
+  border-top: 1px solid #d1d5db;
+  margin: 16px 0;
+}
+
+.preview-readable ul,
+.preview-readable ol {
+  margin: 0 0 10px 0;
+  padding-left: 22px;
+}
+
+.preview-readable li {
+  margin-bottom: 4px;
+  line-height: 1.5;
+  font-size: 10.5pt;
+}
+
+.preview-readable strong {
+  font-weight: 700;
+  color: inherit;
+}
+
+.preview-readable a {
+  color: #1e3a5f;
+  text-decoration: underline;
+}

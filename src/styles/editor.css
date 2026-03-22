@@ -1,0 +1,831 @@
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #f0f0f0;
+}
+
+/* ── App shell ── */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Top bar ── */
+.top-bar {
+  height: 44px;
+  background: #1e3a5f;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  flex-shrink: 0;
+  z-index: 100;
+}
+.top-bar-title {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.top-bar-doc {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* ── Toolbar ribbon ── */
+.toolbar-ribbon {
+  background: #fff;
+  border-bottom: 1px solid #d1d5db;
+  padding: 0 12px;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+}
+.toolbar-ribbon .ck.ck-toolbar {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+.toolbar-ribbon .ck.ck-toolbar .ck-toolbar__items {
+  flex-wrap: wrap;
+}
+
+/* ── Page scroll area ── */
+.page-scroll {
+  flex: 1;
+  overflow-y: auto;
+  background: #c8c8c8;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* ── A4 page ── */
+/* A4 at 96dpi = 794px × 1123px                             */
+/* Margins: top/bottom 20mm = 75px, left/right 25mm = 94px  */
+.ck-editor__editable.ck-editor__editable_inline {
+  width: 794px !important;
+  min-height: 1123px !important;
+  padding: 75px 94px !important;
+  background: #ffffff !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow:
+    0 0 0 1px #bbb,
+    0 4px 20px rgba(0, 0, 0, 0.18) !important;
+  outline: none !important;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif !important;
+  font-size: 10.5pt !important;
+  line-height: 1.6 !important;
+  color: #1a1a1a !important;
+  margin: 0 !important;
+}
+
+/* Focused state */
+.ck-editor__editable.ck-editor__editable_inline.ck-focused {
+  box-shadow:
+    0 0 0 1px #1e3a5f,
+    0 4px 20px rgba(0, 0, 0, 0.22) !important;
+}
+
+/* ── Document title H1 ── */
+.ck.ck-content h1,
+.ck-editor__editable.ck-editor__editable_inline h1 {
+  font-size: 22pt !important;
+  font-weight: 700 !important;
+  color: #1e3a5f !important;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif !important;
+  margin: 0 0 4px 0 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.01em !important;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  text-transform: none !important;
+}
+
+/* ── Document subtitle H2 ── */
+.ck.ck-content h2,
+.ck-editor__editable.ck-editor__editable_inline h2 {
+  font-size: 13pt !important;
+  font-weight: 400 !important;
+  color: #4b5563 !important;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif !important;
+  margin: 0 0 16px 0 !important;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  text-transform: none !important;
+}
+
+/* ── Section headings H3–H6 ── */
+.ck.ck-content h3,
+.ck.ck-content h4,
+.ck.ck-content h5,
+.ck.ck-content h6,
+.ck-editor__editable.ck-editor__editable_inline h3,
+.ck-editor__editable.ck-editor__editable_inline h4,
+.ck-editor__editable.ck-editor__editable_inline h5,
+.ck-editor__editable.ck-editor__editable_inline h6 {
+  font-size: 12pt !important;
+  font-weight: 700 !important;
+  color: #1e3a5f !important;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif !important;
+  border-bottom: 2px solid #1e3a5f !important;
+  border-left: none !important;
+  border-top: none !important;
+  border-right: none !important;
+  padding: 0 0 4px 0 !important;
+  margin: 28px 0 12px 0 !important;
+  background: none !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  line-height: 1.3 !important;
+  width: 100% !important;
+  display: block !important;
+}
+
+/* ── Paragraph ── */
+.ck.ck-content p,
+.ck-editor__editable.ck-editor__editable_inline p {
+  margin: 0 0 9px 0 !important;
+  text-align: justify !important;
+  line-height: 1.6 !important;
+}
+
+/* ── Horizontal rule ── */
+.ck.ck-content hr,
+.ck-editor__editable.ck-editor__editable_inline hr {
+  border: none !important;
+  border-top: 1px solid #d1d5db !important;
+  margin: 16px 0 !important;
+}
+
+/* ── Tables ── */
+.ck.ck-content .table,
+.ck-editor__editable.ck-editor__editable_inline .table {
+  margin: 16px 0 !important;
+  width: 100% !important;
+}
+
+.ck.ck-content table,
+.ck-editor__editable.ck-editor__editable_inline table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  font-size: 9.5pt !important;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif !important;
+}
+
+.ck.ck-content table th,
+.ck-editor__editable.ck-editor__editable_inline table th {
+  background: #1e3a5f !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  padding: 7px 12px !important;
+  text-align: left !important;
+  font-size: 9pt !important;
+  letter-spacing: 0.02em !important;
+  border: 1px solid #1e3a5f !important;
+  white-space: nowrap !important;
+}
+
+.ck.ck-content table td,
+.ck-editor__editable.ck-editor__editable_inline table td {
+  padding: 6px 12px !important;
+  border: 1px solid #e5e7eb !important;
+  vertical-align: top !important;
+  color: #1a1a1a !important;
+  line-height: 1.4 !important;
+}
+
+.ck.ck-content table tr:nth-child(even) td,
+.ck-editor__editable.ck-editor__editable_inline table tr:nth-child(even) td {
+  background: #f0f4f8 !important;
+}
+
+.ck.ck-content table tr:hover td,
+.ck-editor__editable.ck-editor__editable_inline table tr:hover td {
+  background: #e8eef5 !important;
+}
+
+/* ── Blockquote ── */
+.ck.ck-content blockquote,
+.ck-editor__editable.ck-editor__editable_inline blockquote {
+  border-left: 4px solid #1e3a5f !important;
+  border-top: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+  background: #f0f4f8 !important;
+  margin: 16px 0 !important;
+  padding: 12px 16px !important;
+  font-style: normal !important;
+  color: #1e3a5f !important;
+  font-size: 10.5pt !important;
+  font-weight: 600 !important;
+  border-radius: 0 4px 4px 0 !important;
+}
+
+.ck.ck-content blockquote p,
+.ck-editor__editable.ck-editor__editable_inline blockquote p {
+  margin: 0 !important;
+  text-align: left !important;
+  color: #1e3a5f !important;
+}
+
+/* ── Lists ── */
+.ck.ck-content ul,
+.ck.ck-content ol,
+.ck-editor__editable.ck-editor__editable_inline ul,
+.ck-editor__editable.ck-editor__editable_inline ol {
+  margin: 0 0 10px 0 !important;
+  padding-left: 22px !important;
+}
+
+.ck.ck-content li,
+.ck-editor__editable.ck-editor__editable_inline li {
+  margin-bottom: 4px !important;
+  line-height: 1.5 !important;
+}
+
+/* ── Strong / Bold ── */
+.ck.ck-content strong,
+.ck-editor__editable.ck-editor__editable_inline strong {
+  font-weight: 700 !important;
+  color: inherit !important;
+}
+
+/* ── Links ── */
+.ck.ck-content a,
+.ck-editor__editable.ck-editor__editable_inline a {
+  color: #1e3a5f !important;
+  text-decoration: underline !important;
+}
+
+/* ── Page break widget (explicit Ctrl+Enter break) ── */
+.ck-editor__editable .ck-widget.page-break,
+.ck-editor__editable [data-pagination-break],
+.ck-editor__editable .ck-page-break,
+.ck-editor__editable .page-break {
+  display: block !important;
+  position: relative !important;
+  width: calc(100% + 188px) !important;
+  margin-left: -94px !important;
+  margin-right: -94px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  height: 28px !important;
+  background: #c8c8c8 !important;
+  border-top: 2px solid #999 !important;
+  border-bottom: 2px solid #999 !important;
+  cursor: default !important;
+  overflow: visible !important;
+}
+
+.ck-editor__editable .ck-widget.page-break::before,
+.ck-editor__editable .page-break::before {
+  content: "PAGE BREAK" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 8px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  font-size: 8px !important;
+  font-family: "Segoe UI", sans-serif !important;
+  font-weight: 600 !important;
+  color: #888 !important;
+  letter-spacing: 0.1em !important;
+}
+
+.ck-editor__editable .ck-widget.page-break::after,
+.ck-editor__editable .page-break::after {
+  content: attr(data-page-number) !important;
+  display: block !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: #1e3a5f !important;
+  color: #fff !important;
+  font-size: 9px !important;
+  font-family: "Segoe UI", sans-serif !important;
+  font-weight: 600 !important;
+  padding: 2px 8px !important;
+  border-radius: 2px 0 0 2px !important;
+  letter-spacing: 0.04em !important;
+}
+
+.ck-editor__editable .ck-widget.page-break > *,
+.ck-editor__editable .page-break > * {
+  display: none !important;
+}
+
+/* ── Save pill ── */
+.save-pill {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.save-pill.saved {
+  background: #d1fae5;
+  color: #065f46;
+}
+.save-pill.saving {
+  background: #fef3c7;
+  color: #92400e;
+}
+.save-pill.unsaved {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ── Preview panel ── */
+.preview-body h1 {
+  font-size: 16pt;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin-bottom: 3px;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+  line-height: 1.2;
+}
+.preview-body h2 {
+  font-size: 10pt;
+  font-weight: 400;
+  color: #4b5563;
+  margin-bottom: 10px;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+}
+.preview-body h3,
+.preview-body h4,
+.preview-body h5,
+.preview-body h6 {
+  font-size: 9pt;
+  font-weight: 700;
+  color: #1e3a5f;
+  border-bottom: 1.5px solid #1e3a5f;
+  padding-bottom: 2px;
+  margin: 14px 0 6px 0;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+  background: none;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.preview-body p {
+  margin-bottom: 5px;
+  font-size: 8pt;
+  line-height: 1.5;
+  text-align: justify;
+}
+.preview-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 8px 0;
+  font-size: 7pt;
+}
+.preview-body table th {
+  background: #1e3a5f;
+  color: #fff;
+  font-weight: 600;
+  padding: 4px 7px;
+  text-align: left;
+  border: 1px solid #1e3a5f;
+}
+.preview-body table td {
+  padding: 3px 7px;
+  border: 1px solid #e5e7eb;
+  vertical-align: top;
+}
+.preview-body table tr:nth-child(even) td {
+  background: #f0f4f8;
+}
+.preview-body blockquote {
+  border-left: 3px solid #1e3a5f;
+  background: #f0f4f8;
+  margin: 8px 0;
+  padding: 6px 10px;
+  color: #1e3a5f;
+  font-size: 8pt;
+  font-weight: 600;
+  border-radius: 0 3px 3px 0;
+}
+.preview-body blockquote p {
+  margin: 0;
+  color: #1e3a5f;
+}
+.preview-body hr {
+  border: none;
+  border-top: 1px solid #d1d5db;
+  margin: 8px 0;
+}
+.preview-body ul,
+.preview-body ol {
+  margin: 0 0 6px 0;
+  padding-left: 16px;
+}
+.preview-body li {
+  font-size: 8pt;
+  margin-bottom: 2px;
+  line-height: 1.4;
+}
+.preview-body strong {
+  font-weight: 700;
+}
+
+/* ── Print ── */
+@media print {
+  .top-bar,
+  .toolbar-ribbon {
+    display: none !important;
+  }
+  .page-scroll {
+    background: white !important;
+    padding: 0 !important;
+  }
+  .ck-editor__editable {
+    box-shadow: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+}
+
+/* ── Preview — readable mode ── */
+.preview-readable {
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+  font-size: 11pt;
+  line-height: 1.7;
+  color: #1a1a1a;
+}
+
+.preview-readable h1 {
+  font-size: 20pt;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+}
+
+.preview-readable h2 {
+  font-size: 13pt;
+  font-weight: 400;
+  color: #4b5563;
+  margin: 0 0 16px 0;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+}
+
+.preview-readable h3,
+.preview-readable h4,
+.preview-readable h5,
+.preview-readable h6 {
+  font-size: 11.5pt;
+  font-weight: 700;
+  color: #1e3a5f;
+  border-bottom: 2px solid #1e3a5f;
+  padding-bottom: 4px;
+  margin: 24px 0 10px 0;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+  background: none;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.preview-readable p {
+  margin: 0 0 9px 0;
+  font-size: 11pt;
+  line-height: 1.7;
+  text-align: left;
+}
+
+.preview-readable table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 14px 0;
+  font-size: 10pt;
+}
+
+.preview-readable table th {
+  background: #1e3a5f;
+  color: #fff;
+  font-weight: 600;
+  padding: 7px 12px;
+  text-align: left;
+  font-size: 9.5pt;
+  border: 1px solid #1e3a5f;
+}
+
+.preview-readable table td {
+  padding: 6px 12px;
+  border: 1px solid #e5e7eb;
+  vertical-align: top;
+  font-size: 10pt;
+  line-height: 1.4;
+}
+
+.preview-readable table tr:nth-child(even) td {
+  background: #f0f4f8;
+}
+
+.preview-readable blockquote {
+  border-left: 4px solid #1e3a5f;
+  background: #f0f4f8;
+  margin: 14px 0;
+  padding: 12px 16px;
+  color: #1e3a5f;
+  font-size: 11pt;
+  font-weight: 600;
+  border-radius: 0 4px 4px 0;
+}
+
+.preview-readable blockquote p {
+  margin: 0;
+  color: #1e3a5f;
+  text-align: left;
+}
+
+.preview-readable hr {
+  border: none;
+  border-top: 1px solid #d1d5db;
+  margin: 16px 0;
+}
+
+.preview-readable ul,
+.preview-readable ol {
+  margin: 0 0 10px 0;
+  padding-left: 22px;
+}
+
+.preview-readable li {
+  font-size: 11pt;
+  margin-bottom: 4px;
+  line-height: 1.6;
+}
+
+.preview-readable strong {
+  font-weight: 700;
+}
+
+/* ── Top-bar utilities ── */
+.top-bar-pagecount {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+.top-bar-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Preview toggle button ── */
+.preview-toggle-btn {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.preview-toggle-btn:hover  { background: rgba(255, 255, 255, 0.15); }
+.preview-toggle-btn.active { background: rgba(255, 255, 255, 0.2); }
+
+/* ── Divider between top-bar buttons ── */
+.top-bar-divider {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+/* ── AI toggle button ── */
+.ai-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.ai-toggle-btn:hover { background: rgba(255, 255, 255, 0.15); }
+.ai-toggle-btn.active {
+  background: rgba(167, 139, 250, 0.25);
+  border-color: rgba(167, 139, 250, 0.6);
+  color: #ddd6fe;
+}
+.ai-btn-icon { font-size: 13px; line-height: 1; }
+.ai-toggle-btn.active .ai-btn-icon {
+  animation: ai-breathe 2.4s ease-in-out infinite;
+}
+@keyframes ai-breathe {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── App body layout ── */
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+.editor-pane {
+  min-width: 842px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.preview-pane {
+  min-width: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* ── Drag divider ── */
+.drag-divider {
+  width: 6px;
+  flex-shrink: 0;
+  background: #e5e7eb;
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.15s;
+}
+.drag-divider-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  pointer-events: none;
+}
+.drag-divider-dot {
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #9ca3af;
+}
+
+/* ── AI Panel overlay — slides in from the right ── */
+.ai-panel-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 360px;
+  z-index: 200;
+  pointer-events: none;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity   0.28s ease;
+  opacity: 0;
+}
+.ai-panel-overlay.open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── AI Panel chrome ── */
+.ai-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+}
+.ai-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 44px;
+  background: #1e3a5f;
+  flex-shrink: 0;
+}
+.ai-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.ai-panel-icon { font-size: 15px; color: #a78bfa; }
+.ai-panel-close {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: color 0.15s, background 0.15s;
+}
+.ai-panel-close:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+.ai-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Coming soon placeholder ── */
+.ai-panel-coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 32px 24px;
+  text-align: center;
+}
+.ai-coming-soon-icon {
+  font-size: 36px;
+  color: #a78bfa;
+  animation: ai-pulse 2.4s ease-in-out infinite;
+}
+@keyframes ai-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);    }
+  50%       { opacity: 0.6; transform: scale(0.92); }
+}
+.ai-coming-soon-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e3a5f;
+  margin: 0;
+}
+.ai-coming-soon-sub {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 240px;
+}
+/* ── TOC toggle button (top bar) ── */
+.toc-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.toc-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+.toc-toggle-btn.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.toc-btn-icon {
+  font-size: 15px;
+  line-height: 1;
+}

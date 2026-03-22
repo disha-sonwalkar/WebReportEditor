@@ -192,3 +192,106 @@
 }
 .ck-editor__editable .ck-widget.page-break > *,
 .ck-editor__editable .page-break > * { display: none !important; }
+
+/* ── Document Footer ─────────────────────────────────────────────────
+   Rendered inside .page-scroll below CKEditor. Width matches the A4
+   page (794px) so it aligns perfectly with the document above it.
+─────────────────────────────────────────────────────────────────────── */
+.doc-footer {
+  width: 794px;
+  background: #ffffff;
+  /* No top shadow — visually merges with the CKEditor page above.
+     Only left, right, and bottom shadows drawn. */
+  box-shadow:
+    -1px 0 0 0 #bbb,
+     1px 0 0 0 #bbb,
+     0 4px 20px rgba(0, 0, 0, 0.18);
+  margin-top: -1px;       /* overlap CKEditor bottom border — zero visible gap */
+  flex-shrink: 0;
+  padding-bottom: 32px;
+}
+
+.doc-footer-rule {
+  height: 3px;
+  background: #1e3a5f;
+}
+
+.doc-footer-inner {
+  padding: 16px 94px 0;
+}
+
+.doc-footer-label {
+  font-size: 8pt;
+  font-weight: 700;
+  color: #1e3a5f;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+}
+
+.doc-footer-analysts {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.doc-footer-analyst {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.doc-footer-analyst-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #1e3a5f;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+}
+
+.doc-footer-analyst-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.doc-footer-analyst-name {
+  font-size: 9.5pt;
+  font-weight: 700;
+  color: #1a1a1a;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+  line-height: 1.3;
+}
+
+.doc-footer-analyst-title {
+  font-size: 8.5pt;
+  color: #4b5563;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+  line-height: 1.3;
+}
+
+.doc-footer-analyst-contact {
+  font-size: 8pt;
+  color: #6b7280;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+  line-height: 1.4;
+}
+
+.doc-footer-disclaimer {
+  font-size: 7.5pt;
+  color: #9ca3af;
+  line-height: 1.5;
+  font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 10px;
+  margin: 0;
+}

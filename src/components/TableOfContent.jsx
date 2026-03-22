@@ -27,7 +27,14 @@ function scrollEditorToHeading(text) {
   }
 }
 
-export default function TableOfContent({ content, isOpen }) {
+function scrollToFooter() {
+  const footer = document.querySelector(".doc-footer");
+  if (footer) {
+    footer.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+export default function TableOfContent({ content, isOpen, analysts = [] }) {
   const [activeId, setActiveId] = useState(null);
   const headings = useMemo(() => parseHeadings(content), [content]);
 
@@ -88,6 +95,29 @@ export default function TableOfContent({ content, isOpen }) {
           </ul>
         )}
       </nav>
+
+      {/* ── Research Coverage section ── */}
+      {analysts.length > 0 && (
+        <div className="toc-section">
+          <div className="toc-section-label">Research Coverage</div>
+          {analysts.map((a) => (
+            <button
+              key={a.id}
+              className={`toc-link toc-analyst-link ${activeId === `analyst-${a.id}` ? "active-analyst" : ""}`}
+              onClick={() => { setActiveId(`analyst-${a.id}`); scrollToFooter(); }}
+              title={`${a.name} — ${a.title}`}
+            >
+              <span className="toc-analyst-avatar">
+                {a.name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()}
+              </span>
+              <span className="toc-link-text">
+                <span className="toc-analyst-name">{a.name}</span>
+                <span className="toc-analyst-title">{a.title}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
 
       {headings.length > 0 && (
         <div className="toc-footer">
